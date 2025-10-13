@@ -1,6 +1,6 @@
 # DuckDuckGo Image Search Changelog
 
-## [Windows Support] - {PR_MERGE_DATE}
+## [Windows Support] - 2025-10-13
 
 - Added platform-specific shortcuts for macOS and Windows.
 - Extended supported platforms to include Windows.
