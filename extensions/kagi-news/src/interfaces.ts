@@ -1,67 +1,77 @@
+// TypeScript interfaces and type definitions for the app
+
 export interface Category {
   name: string;
-  file: string;
+  id: string;
 }
+
 export interface Source {
   name: string;
   url: string;
 }
-interface ClusterArticle {
-  title: string;
-  link: string;
+
+export interface CategoryItem {
+  id: string;
+  name: string;
 }
-export interface Cluster {
-  cluster_number: number;
-  title: string;
-  short_summary: string;
-  articles: ClusterArticle[];
-  emoji?: string;
-  category: string;
-  primary_image?: { url: string; caption: string; credit: string };
-  talking_points?: string[];
-  secondary_image?: { url: string; caption: string; credit: string };
-  perspectives?: Array<{ text: string; sources: Source[] }>;
-  historical_background?: string;
-  technical_details?: string[];
-  industry_impact?: string[];
-  timeline?: Array<{ date: string; content: string }>;
-  international_reactions?: string[];
-  did_you_know?: string;
+
+export interface BatchItem {
+  id: string;
+  createdAt: string;
+  totalCategories: number;
+  totalClusters: number;
+  totalArticles: number;
 }
+
 export interface Article {
   id: string;
   title: string;
   summary: string;
-  sources: Source[];
-  emoji?: string;
+  sources?: Source[];
+  uniqueDomains?: number;
+  numberOfTitles?: number;
+  businessAnglePoints?: string[];
+  businessAngleText?: string;
   category: string;
-  primary_image?: { url: string; caption: string; credit: string };
-  highlights?: string[];
-  secondary_image?: { url: string; caption: string; credit: string };
-  perspectives?: Array<{ text: string; sources: Source[] }>;
-  historical_background?: string;
-  technical_details?: string[];
-  industry_impact?: string[];
-  timeline?: Array<{ date: string; content: string }>;
-  international_reactions?: string[];
+  culinarySignificance?: string;
+  designPrinciples?: string;
+  destinationHighlights?: string;
   didYouKnow?: string;
+  diyTips?: string;
+  economicImplications?: string;
+  emoji?: string;
+  futureOutlook?: string;
+  gameplayMechanics?: string[];
+  geopoliticalContext?: string;
+  highlights?: string[];
+  historicalBackground?: string;
+  humanitarianImpact?: string;
+  industryImpact?: string[];
+  internationalReactions?: string[];
+  keyPlayers?: string[];
+  leagueStandings?: string;
+  location?: string;
+  performanceStatistics?: string[];
+  perspectives?: Array<{ text: string; sources?: Source[] }>;
+  primary_image?: { url: string; caption: string; credit: string };
+  quote?: string;
+  quoteAttribution?: string;
+  quoteAuthor?: string;
+  quoteSourceUrl?: string;
+  scientificSignificance?: string[];
+  secondary_image?: { url: string; caption: string; credit: string };
+  suggestedQna?: Array<{ question: string; answer: string }>;
+  technicalDetails?: string[];
+  technicalSpecifications?: string;
+  timeline?: Array<{ date: string; content: string }>;
+  travelAdvisory?: string[];
+  userActionItems?: string[];
+  userExperienceImpact?: string;
 }
-export interface CategoryResponse {
-  category: string;
-  timestamp: number;
-  clusters: Cluster[];
-}
+
 export interface HistoricalEvent {
   year: string;
   content: string;
   type: string;
   sort_year: number;
-}
-export interface OnThisDayResponse {
-  timestamp: number;
-  events: HistoricalEvent[];
-}
-export interface KiteResponse {
-  categories: Category[];
-  timestamp?: number;
 }

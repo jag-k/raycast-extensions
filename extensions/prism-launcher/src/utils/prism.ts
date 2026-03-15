@@ -1,42 +1,44 @@
-import * as fs from "fs-extra";
-import * as path from "path";
 import { ConfigIniParser } from "config-ini-parser";
-import { Instance, Server } from "../types";
+import * as fs from "fs-extra";
 import * as async from "modern-async";
+import * as path from "path";
 import nbt from "prismarine-nbt";
+import type { Instance, Server } from "../types";
+import { getPreferences } from "./preferences";
+import { getShortcutTargetPath } from "./powershell";
 
-export const instancesPath = path.join(
-  process.env.HOME!,
-  "Library",
-  "Application Support",
-  "PrismLauncher",
-  "instances",
-);
+export const isWin = process.platform === "win32";
+export const isMac = process.platform === "darwin";
+
+export async function getPrismLauncherPath(): Promise<string | null> {
+  const { path: installPath, bundleId, name } = getPreferences("installPath");
+
+  if (!(await fs.pathExists(installPath))) return null;
+
+  if (isMac && bundleId !== "org.prismlauncher.PrismLauncher") return null;
+  const shortcutTargetPath = (await getShortcutTargetPath(installPath)) || "";
+  if (isWin && path.basename(shortcutTargetPath) !== "prismlauncher.exe" && name === "Prism Launcher") return null;
+
+  return shortcutTargetPath;
+}
 
 /**
- * Get the PrismLauncher installation path dynamically
+ * Get the instances path based on OS
  */
-async function getPrismLauncherPath(): Promise<string | null> {
-  const prismLauncherApp = path.join("/Applications", "PrismLauncher.app");
-  const prismLauncherWithSpace = path.join("/Applications", "Prism Launcher.app");
+export async function getInstancesPath(): Promise<string | null> {
+  const customInstancesPath = getPreferences("instancesPath");
+  if (!(await fs.pathExists(customInstancesPath))) return null;
 
-  if (await fs.pathExists(prismLauncherApp)) {
-    return prismLauncherApp;
-  }
-
-  if (await fs.pathExists(prismLauncherWithSpace)) {
-    return prismLauncherWithSpace;
-  }
-
-  return null;
+  return customInstancesPath;
 }
 
 /**
  * Check if PrismLauncher is installed
  */
 export async function isPrismLauncherInstalled(): Promise<boolean> {
-  const prismLauncherPath = await getPrismLauncherPath();
-  return prismLauncherPath !== null && (await fs.pathExists(instancesPath));
+  const [prismLauncherPath, instancesPath] = await Promise.all([getPrismLauncherPath(), getInstancesPath()]);
+
+  return prismLauncherPath !== null && instancesPath !== null;
 }
 
 /**
@@ -63,6 +65,9 @@ export async function saveFavoriteInstanceIds(
  * Load all PrismLauncher instances
  */
 export async function loadInstances(favoriteIds: string[], onlyWithServers: boolean = false): Promise<Instance[]> {
+  const instancesPath = await getInstancesPath();
+  if (!instancesPath) return [];
+
   // Get all folders in instances folder
   const instanceFolders = await async.asyncFilter(await fs.readdir(instancesPath), async (instanceId: string) => {
     const stats = await fs.stat(path.join(instancesPath, instanceId));
@@ -94,7 +99,6 @@ export async function loadInstances(favoriteIds: string[], onlyWithServers: bool
       id: instanceId,
       icon: iconPath,
       favorite: favoriteIds.includes(instanceId),
-
       ...(onlyWithServers ? { hasServers } : {}),
     };
   });
@@ -127,6 +131,9 @@ export function sortInstances(instancesList: Instance[]): Instance[] {
  * Get the minecraft folder path for an instance
  */
 export async function getMinecraftFolderPath(instanceId: string): Promise<string | null> {
+  const instancesPath = await getInstancesPath();
+  if (!instancesPath) return null;
+
   const minecraftPath = path.join(instancesPath, instanceId, "minecraft");
   if (await fs.pathExists(minecraftPath)) {
     return minecraftPath;
