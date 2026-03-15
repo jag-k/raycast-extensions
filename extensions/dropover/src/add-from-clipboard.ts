@@ -167,7 +167,7 @@ async function detectClipboardImageFormat(): Promise<ImageFormat | null> {
 /**
  * Save clipboard image to a file using osascript
  */
-async function saveClipboardImage(outputPath: string, format: ImageFormat): Promise<boolean> {
+async function saveClipboardImage(outputPath: string, format: ImageFormat): Promise<string | null> {
   try {
     // Use osascript to write clipboard image data to file
     const script = `
@@ -180,7 +180,7 @@ async function saveClipboardImage(outputPath: string, format: ImageFormat): Prom
       return "success"
     `;
     await spawnPromise("osascript", ["-e", script]);
-    return fs.existsSync(outputPath);
+    return fs.existsSync(outputPath) ? outputPath : null;
   } catch {
     // If the specific format fails, try PNG as fallback
     if (format.extension !== ".png") {
@@ -196,12 +196,12 @@ async function saveClipboardImage(outputPath: string, format: ImageFormat): Prom
           return "success"
         `;
         await spawnPromise("osascript", ["-e", pngScript]);
-        return fs.existsSync(pngPath);
+        return fs.existsSync(pngPath) ? pngPath : null;
       } catch {
-        return false;
+        return null;
       }
     }
-    return false;
+    return null;
   }
 }
 
