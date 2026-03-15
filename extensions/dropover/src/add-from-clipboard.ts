@@ -144,8 +144,7 @@ function hasVideoContent(clipboardInfo: string): boolean {
  * Detect which image format is available in clipboard
  * Uses the ORDER from clipboard info - first format is typically the original
  */
-async function detectClipboardImageFormat(): Promise<ImageFormat | null> {
-  const info = await getClipboardInfo();
+async function detectClipboardImageFormat(info: string | null): Promise<ImageFormat | null> {
   if (!info) return null;
 
   // Find the first matching format based on position in clipboard info
@@ -229,7 +228,7 @@ export default async function main() {
     }
 
     // Check if clipboard has image data
-    const imageFormat = await detectClipboardImageFormat();
+    const imageFormat = await detectClipboardImageFormat(clipboardInfo);
     if (imageFormat) {
       const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
       const imagePath = path.join(supportPath, `clipboard-image-${timestamp}${imageFormat.extension}`);

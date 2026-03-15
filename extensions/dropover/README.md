@@ -11,9 +11,11 @@ Add selected files to [Dropover](https://dropoverapp.com) with a single click fr
 ## Features
 
 ### 📁 Add to Dropover
+
 Add selected files from Finder directly to Dropover.
 
 ### 📋 Add Clipboard to Dropover
+
 Add content from your clipboard to Dropover:
 
 - **Images**: Supports all major formats

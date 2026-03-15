@@ -3,6 +3,7 @@
 ## [Add Clipboard Support] - {PR_MERGE_DATE}
 
 ### New Features
+
 - **New Command: "Add Clipboard to Dropover"** - Add images or text directly from clipboard
 - Supports all major image formats:
   - **Animated**: GIF
@@ -14,6 +15,7 @@
 - Clear error messages for unsupported formats (videos, etc.)
 
 ### Technical Improvements
+
 - Uses native macOS AppleScript for reliable clipboard image extraction
 - Fallback to PNG format when specific format extraction fails
 - Proper video format detection to show helpful error messages
@@ -30,7 +32,6 @@
   - Added an author GitHub profile link
   - Added Dropover app website link
 - Fixed the typo in Dropover app name in README
-
 
 ## [Fix the issue with adding files and add screenshot] - 2023-05-08
 
