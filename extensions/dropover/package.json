@@ -2,12 +2,18 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "dropover",
   "title": "Dropover",
-  "description": "Add selected files to Dropover",
+  "description": "Add selected files or clipboard content to Dropover",
   "icon": "command-icon.png",
   "author": "jag-k",
+  "contributors": [
+    "dheeraj"
+  ],
   "categories": [
     "Applications",
     "Productivity"
+  ],
+  "platforms": [
+    "macOS"
   ],
   "license": "MIT",
   "commands": [
@@ -16,17 +22,24 @@
       "title": "Add to Dropover",
       "description": "Add selected files to Dropover",
       "mode": "no-view"
+    },
+    {
+      "name": "add-from-clipboard",
+      "title": "Add Clipboard to Dropover",
+      "description": "Add copied image or text from clipboard to Dropover",
+      "mode": "no-view"
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.50.5"
+    "@raycast/api": "^1.103.0"
   },
   "devDependencies": {
-    "@raycast/eslint-config": "1.0.5",
-    "@types/node": "18.8.3",
-    "@types/react": "18.0.9",
-    "eslint": "^7.32.0",
+    "@raycast/eslint-config": "^2.1.1",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.10",
+    "eslint": "^10.0.3",
     "prettier": "^2.5.1",
+    "react": "^18.2.0",
     "typescript": "^4.4.3"
   },
   "scripts": {
