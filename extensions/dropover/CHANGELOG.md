@@ -1,6 +1,6 @@
 # Dropover Changelog
 
-## [Add Clipboard Support] - {PR_MERGE_DATE}
+## [Add Clipboard Support] - 2026-03-15
 
 ### New Features
 
